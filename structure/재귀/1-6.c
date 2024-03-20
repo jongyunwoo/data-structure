@@ -1,6 +1,5 @@
 #include <stdio.h>
 #pragma warning(disable:4996)
-
 void gcd(int n, int m)
 {
     if(m == 0){

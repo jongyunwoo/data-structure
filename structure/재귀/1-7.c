@@ -2,7 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 #pragma warning(disable:4996)
-
 int check(char *arr, char c, int idx, int count)
 {
     if(arr[idx] == c){
