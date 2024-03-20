@@ -1,5 +1,6 @@
 #include <stdio.h>
 #pragma warning(disable:4996)
+
 int max(int *arr, int i){
     if(i == 0){
         return arr[0];

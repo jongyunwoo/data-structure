@@ -1,5 +1,6 @@
 #include <stdio.h>
 #pragma warning(disable:4996)
+
 void print(int n)
 {
     int a = 0;

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #pragma warning(disable:4996)
+
 int product(int N)
 {
     int sum = 0;

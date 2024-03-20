@@ -1,5 +1,6 @@
 #include <stdio.h>
 #pragma warning(disable:4996)
+
 void rHnoi(int n, char from, char tmp, char to)
 {
     if(n == 1){
