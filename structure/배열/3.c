@@ -5,9 +5,9 @@
 
 int main()
 {
-    int N;
+    int N = 0;
     int a = 1;
-    int k, f = 0;
+    int k = 0, f = 0;
     scanf("%d", &N);
     int **arr = (int **)malloc(N*sizeof(int*));
     for(int i = 0; i < N; i++){
@@ -30,7 +30,8 @@ int main()
             }
             f++;
         }
-        if(k == N) break;
+        if(k == N)
+            break;
     }
     for(int i = 0; i < N; i++){
         for(int j = 0; j < N; j++){
@@ -38,5 +39,10 @@ int main()
         }
         printf("\n");
     }
+    for (int i = 0; i < N; i++) {
+        free(arr[i]);
+    }
+    free(arr);
 
+    return 0;
 }
