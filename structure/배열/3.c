@@ -19,6 +19,8 @@ int main()
         a++;
         if(f == N){
             k++;
+            if(k == N)
+                break;
             while(1){
                 f--;
                 if(f < 0){
@@ -29,9 +31,9 @@ int main()
                 a++;
             }
             f++;
-        }
         if(k == N)
             break;
+        }
     }
     for(int i = 0; i < N; i++){
         for(int j = 0; j < N; j++){
