@@ -17,7 +17,7 @@ int main()
    int countM = M;
    int countm = 0;
    int countn = 0;
-   while(1){
+   while(a <= N*M){
       for(;;){
          arr[j][i] = a;
          i++;
@@ -29,7 +29,6 @@ int main()
             break;
          }
       }
-      if(a > N*M) break;
       for(;;){
          arr[j][i] = a;
          a++;
@@ -41,7 +40,6 @@ int main()
             break;
          }
       }
-      if(a > N*M) break;
       for(;;){
          arr[j][i] = a;
          i--;
@@ -53,20 +51,17 @@ int main()
             break;
          }
       }
-      if(a > N*M) break;
       for(;;){
          arr[j][i] = a;
          a++;
          j--;
-         if(j <= countn){  
+         if(j == countn){
             i++;
             j++;
             countn++;
             break;
          }
       }
-      if(a > N*M) break;
-
    }
    for(int k = 0; k < N; k++){
       for(int f = 0; f < M; f++){
