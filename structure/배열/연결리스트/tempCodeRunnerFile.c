@@ -28,7 +28,7 @@ Node* init(Node** H, Node** T) {
 
 void print(Node* H, Node* T) {
     Node* p = H->next;
-    while (p != T){
+    while (p != T) {
         printf("%c", p->e);
         p = p->next;
     }
@@ -44,11 +44,12 @@ void addNodeBefore(Node* p, char e) {
     p->prev = newNode;
 }
 
-void add(Node* H, Node* T, int r, char e, int *n) {
+void add(Node* H, Node* T, int r, char e, int* n) {
     if (r < 1 || r > (*n) + 1) {
-        printf("invalid position");
+        printf("invalid rank exception");
+        return '\0';
     }
-    Node *p = H;
+    Node* p = H;
     for (int i = 0; i < r; i++) {
         p = p->next;
     }
@@ -66,7 +67,7 @@ char removeNode(Node* p) {
 
 char delete(Node* H, Node* T, int r, int* n) {
     if (r < 1 || r > *n) {
-        printf("invalid position");
+        printf("invalidRankException");
         return '\0';
     }
     Node* p = H;
@@ -75,32 +76,30 @@ char delete(Node* H, Node* T, int r, int* n) {
     }
     char e = removeNode(p);
     n = n - 1;
-    return 0;
+    return e;
 }
 
-char get(Node* H, Node* T, int r, int *n){
-    
-    if ((r < 1) || (r > *n)) {
+char get(Node* H, Node* T, int r) {
+    if (r < 1) {
         printf("invalid position");
         return '\0';
     }
-    Node *p = H;
-    Node *q = T;
+    Node* current = H;
     for (int i = 0; i < r; i++) {
-        if (p->next == q) {
+        if (current->next == T) {
             printf("invalid position");
-            return '\0';
+            return;
         }
-        p = p->next;
+        current = current->next;
     }
-    return p->e;
+    return current->e;
 }
 
 int main() {
     Node* H = NULL;
     Node* T = NULL;
-    char List = init(&H, &T);
-    int n = 0;
+    H = init(&H, &T);
+    int n = 0; // 연산의 개수
     scanf("%d", &n);
 
     for (int i = 0; i < n; i++) {
@@ -114,7 +113,7 @@ int main() {
         } else if (operation == 'D') {
             delete(H, T, r, &n);
         } else if (operation == 'G') {
-            printf("%c\n", get(H, T, r, &n));
+            printf("%c\n", get(H, T, r));
         } else if (operation == 'P') {
             print(H, T);
         }
