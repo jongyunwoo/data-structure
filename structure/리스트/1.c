@@ -28,7 +28,7 @@ Node* init(Node** H, Node** T) {
 
 void print(Node* H, Node* T) {
     Node* p = H->next;
-    while (p != T){
+    while (p != T) {
         printf("%c", p->e);
         p = p->next;
     }
@@ -47,14 +47,13 @@ void addNodeBefore(Node* p, char e) {
 void add(Node* H, Node* T, int r, char e, int* n) {
     if (r < 1 || r > (*n) + 1) {
         printf("invalid position");
-        return;
     }
     Node* p = H;
     for (int i = 0; i < r; i++) {
         p = p->next;
     }
     addNodeBefore(p, e);
-    n = n + 1;
+    *n = *n + 1;
 }
 
 char removeNode(Node* p) {
@@ -66,32 +65,31 @@ char removeNode(Node* p) {
 }
 
 char delete(Node* H, Node* T, int r, int* n) {
+    printf("%d asdas",*n);
     if (r < 1 || r > *n) {
         printf("invalid position");
-        return;
+        return '\0';
     }
     Node* p = H;
     for (int i = 0; i < r; i++) {
         p = p->next;
     }
     char e = removeNode(p);
-    n = n - 1;
+    *n = *n - 1;
     return 0;
 }
 
 char get(Node* H, Node* T, int r, int *n){
-    
+    char e;
     if ((r < 1) || (r > *n)) {
         printf("invalid position");
-        return;
+        return '\0';
     }
     Node *p = H;
-    Node *q = T;
-    char e = p->e;
     for (int i = 0; i < r; i++) {
-        if (p->next == q) {
+        if (p->next == T) {
             printf("invalid position");
-            return;
+            return '\0';
         }
         p = p->next;
     }
@@ -101,24 +99,36 @@ char get(Node* H, Node* T, int r, int *n){
 int main() {
     Node* H = NULL;
     Node* T = NULL;
-    char List = init(&H, &T);
-    int n = 0;
+    H = init(&H, &T);
+    int n = 0; // 연산의 개수
+    char a = 0;
     scanf("%d", &n);
+   
 
     for (int i = 0; i < n; i++) {
         char operation;
         int r;
         char e;
-        scanf(" %c %d", &operation, &r);
+        getchar();
+        scanf("%c", &operation);
+        
         if (operation == 'A') {
-            scanf(" %c", &e);
+            scanf("%d %c", &r, &e);
             add(H, T, r, e, &n);
         } else if (operation == 'D') {
+            printf("del");
+            scanf("%d", &r);
             delete(H, T, r, &n);
         } else if (operation == 'G') {
-            printf("%c\n", get(H, T, r, &n));
+            scanf("%d", &r);
+            a = get(H, T, r, &n);
+            if(a != '\0'){
+                printf("%c\n", get(H, T, r, &n));
+            }
         } else if (operation == 'P') {
             print(H, T);
+        } else {
+            printf("error!");
         }
     }
 
