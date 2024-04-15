@@ -44,16 +44,17 @@ void addNodeBefore(Node* p, char e) {
     p->prev = newNode;
 }
 
-void add(Node* H, Node* T, int r, char e, int* n) {
+void add(Node* H, Node* T, int r, char e, int *n) {
     if (r < 1 || r > (*n) + 1) {
         printf("invalid position");
+        return;
     }
     Node* p = H;
     for (int i = 0; i < r; i++) {
         p = p->next;
     }
     addNodeBefore(p, e);
-    *n = *n + 1;
+    n = n + 1;
 }
 
 char removeNode(Node* p) {
@@ -64,18 +65,16 @@ char removeNode(Node* p) {
     return e;
 }
 
-char delete(Node* H, Node* T, int r, int* n) {
-    printf("%d asdas",*n);
+char delete(Node* H, Node* T, int r, int *n) {
     if (r < 1 || r > *n) {
         printf("invalid position");
-        return '\0';
     }
     Node* p = H;
     for (int i = 0; i < r; i++) {
         p = p->next;
     }
     char e = removeNode(p);
-    *n = *n - 1;
+    n = n - 1;
     return 0;
 }
 
@@ -103,32 +102,27 @@ int main() {
     int n = 0; // 연산의 개수
     char a = 0;
     scanf("%d", &n);
-   
 
     for (int i = 0; i < n; i++) {
         char operation;
         int r;
         char e;
-        getchar();
-        scanf("%c", &operation);
-        
+        scanf(" %c", &operation);
         if (operation == 'A') {
-            scanf("%d %c", &r, &e);
+            scanf(" %d", &r);
+            scanf(" %c", &e);
             add(H, T, r, e, &n);
         } else if (operation == 'D') {
-            printf("del");
-            scanf("%d", &r);
+            scanf(" %d", &r);
             delete(H, T, r, &n);
         } else if (operation == 'G') {
-            scanf("%d", &r);
+            scanf(" %d", &r);
             a = get(H, T, r, &n);
             if(a != '\0'){
                 printf("%c\n", get(H, T, r, &n));
             }
         } else if (operation == 'P') {
             print(H, T);
-        } else {
-            printf("error!");
         }
     }
 
