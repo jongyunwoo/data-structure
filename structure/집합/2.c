@@ -66,28 +66,28 @@ SET* _union(SET *A, SET *B){
 	return sumset;
 }
 
-node* intersect(node* A, node* B) {// 이거는 교집합
+node* intersect(node* A, node* B) {
 	node* first = A;
 	node* second = B;
-	node* intersect = (node*)malloc(sizeof(node));// 교집합 담을 리스트
+	node* intersect = (node*)malloc(sizeof(node));
 
 	intersect->data = NULL;
 	intersect->next = NULL;
 
-	if ((first->next == NULL) && (second->next == NULL)) {//둘 다 공집합이면
-		return intersect;// 걍 빈 리스트 반환
+	if ((first->next == NULL) && (second->next == NULL)) {
+		return intersect;
     }
-	else if (first->next == NULL) {// 첫번째만 공집합이어도
-		return intersect;// 빈리스트 반환 왜냐믄 교집합이니께
-	}
-    else if (second->next == NULL) {// 어 얘도 똑같이
+	else if (first->next == NULL) {
 		return intersect;
 	}
-	else {// 둘다 공집합이 아니야
+    else if (second->next == NULL) {
+		return intersect;
+	}
+	else {
 		first = first->next;
 		second = second->next;
 
-		while ((first != NULL) && (second != NULL)) {// 둘 중 하나가 끝나면 끝나는 반복문이
+		while ((first != NULL) && (second != NULL)) {
 			if (first->data == second->data) {
 				addset(intersect, first->data);
 				first = first->next;
