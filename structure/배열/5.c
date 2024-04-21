@@ -6,18 +6,18 @@
 
 int main() 
 {
-    int N, M;
+    int N, M; // 행, 열 크기 입력 받기
     int row, col = 0;
-    scanf("%d %d", &N, &M);
-    int **arr =(int **)malloc(N*sizeof(int*));
+    scanf("%d %d", &N, &M); // 행렬 크기 입력 받기
+    int **arr =(int **)malloc(N*sizeof(int*)); //행 동적할당
     for(int i = 0; i < N; i++){
-        arr[i] = (int *)malloc(M*sizeof(int));
+        arr[i] = (int *)malloc(M*sizeof(int)); // 열 동적할당
     }
-    int a = 1; 
+    int a = 1; //입력받을 숫자
 
     // 대각선 방향으로 숫자 채우기,
     for(int d = 0; d < N + M - 1; d++) {
-        if(d < M){
+        if(d < M){ 
             row = 0;
             col = d;
         }
