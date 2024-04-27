@@ -22,17 +22,17 @@ void member(SET* C, int e){
 SET* _union(SET *A, SET *B){
     SET* first = A;
     SET* second = B;
-
-    SET* sum = (node*)malloc(sizeof(SET));
+    SET* sum = (SET*)malloc(sizeof(SET));
+    sum->next = NULL;
 
     if ((first->next == NULL) && (second->next == NULL))
-		return sumset;
+		return sum;
 	else if (first->next == NULL) {
-		free(sumset);
+		free(sum);
 		return second;
 	}
 	else if (second->next == NULL) {
-		free(sumset);
+		free(sum);
 		return first;
 	}
 	else {
@@ -41,69 +41,56 @@ SET* _union(SET *A, SET *B){
 
 		while ((first != NULL) && (second != NULL)) {
 			if (first->data < second->data) {
-				addset(sumset, first->data);
+				member(sum, first->data);
 				first = first->next;
 			}
 			else if (first->data > second->data) {
-				addset(sumset, second->data);
+				member(sum, second->data);
 				second = second->next;
 			}
 			else {
-				addset(sumset, first->data);
+				member(sum, first->data);
 				first = first->next;
 				second = second->next;
 			}
 		}
 		while (first != NULL) {
-			addset(sumset, first->data);
+			member(sum, first->data);
 			first = first->next;
 		}
 		while (second !=NULL) {
-			addset(sumset, second->data);
+			member(sum, second->data);
 			second = second->next;
 		}
 	}
-	return sumset;
+	return sum;
 }
 
-node* intersect(node* A, node* B) {
-	node* first = A;
-	node* second = B;
-	node* intersect = (node*)malloc(sizeof(node));
-
-	intersect->data = NULL;
+SET* intersect(SET* A, SET* B) {
+	SET* first = A->next;
+	SET* second = B->next;
+	SET* intersect = (SET*)malloc(sizeof(SET));
 	intersect->next = NULL;
 
-	if ((first->next == NULL) && (second->next == NULL)) {
+	if ((first == NULL) || (second == NULL))
 		return intersect;
-    }
-	else if (first->next == NULL) {
-		return intersect;
-	}
-    else if (second->next == NULL) {
-		return intersect;
-	}
-	else {
-		first = first->next;
-		second = second->next;
 
-		while ((first != NULL) && (second != NULL)) {
-			if (first->data == second->data) {
-				addset(intersect, first->data);
-				first = first->next;
-				second = second->next;
-			}
-			else if (first->data < second->data)
-				first = first->next;
-			else if (first->data > second->data)
-				second = second->next;
+	while (first != NULL && second != NULL) {
+		if (first->data == second->data) {
+			member(intersect, first->data);
+			first = first->next;
+			second = second->next;
 		}
+		else if (first->data < second->data)
+			first = first->next;
+		else if (first->data > second->data)
+			second = second->next;
 	}
 	return intersect;
 }
 
-void print(node* set) {
-	node* p = set->next;
+void print(SET* set) {
+	SET* p = set->next;
 	if (p == NULL)
 		printf("0\n");
 	else {
@@ -115,34 +102,33 @@ void print(node* set) {
 	}
 }
 
-void freeset(node* set) {
-	node* p = set;
+void freeset(SET* set) {
+	SET* p = set;
+	SET* temp;
 	while (p != NULL) {
-		set = set->next;
-		free(p);
-		p = set;
+		temp = p;
+		p = p -> next;
+		free(temp);
 	}
 }
 
 int main() {
 	int size, elem;
-	node* A = (node*)malloc(sizeof(node));
-	node* B = (node*)malloc(sizeof(node));
-	node* sumset, * intersectset;
-	A->data = NULL;
+	SET* A = (SET*)malloc(sizeof(SET));
+	SET* B = (SET*)malloc(sizeof(SET));
+	SET* sumset, * intersectset;
 	A->next = NULL;
-	B->data = NULL;
 	B->next = NULL;
 
 	scanf("%d", &size);
 	for (int i = 0; i < size; i++) {
 		scanf("%d", &elem);
-		addset(A, elem);
+		member(A, elem);
 	}
 	scanf("%d", &size);
 	for (int i = 0; i < size; i++) {
 		scanf("%d", &elem);
-		addset(B, elem);
+		member(B, elem);
 	}
 
 	sumset = _union(A, B);
@@ -150,9 +136,8 @@ int main() {
 	intersectset = intersect(A, B);
 	print(intersectset);
 	
-	free(A);
-	free(B);
-	free(sumset);
-	free(intersectset);
-
+	freeset(A);
+	freeset(B);
+	freeset(sumset);
+	freeset(intersectset);
 }
