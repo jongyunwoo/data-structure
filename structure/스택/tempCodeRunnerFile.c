@@ -68,7 +68,6 @@ int main(){
 	top = -1;
 
 	fgets(sentence, 1000, stdin);
-	getchar();
 	for(int i = 0; i < strlen(sentence); i++){
 		if ((sentence[i] == '(') || (sentence[i] == '{') || (sentence[i] == '[') || (sentence[i] == ')') || (sentence[i] == '}') || (sentence[i] == ']')){
 			count++;
