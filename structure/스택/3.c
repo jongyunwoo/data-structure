@@ -1,37 +1,75 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #pragma warning(disable:4996)
 
-int Stacksize = 100;
-int top;
+#define stacksize 100
+char S[stacksize];
+int top = -1;
 
-void push(char *S, char *element){
-    if(top >= Stacksize-1){
+void push(char c){
+    if(top >= stacksize-1){
         printf("Stack Full\n");
-        return;
     }
-    S[++[top]] = element;
+    S[++(top)] = c;
 }
 
-char pop(char *S){
+char pop(){
     if(top <= -1){
         printf("Stack Empty\n");
-        return 0;
+        return '\0';
     }
     return S[(top)--];
 }
 
+//우선순위 정하기
+int precedence(char op){
+    if(op == '!'){
+        return 6;
+    }
+    else if(op == '*' || op == '/'){
+        return 5;
+    }
+    else if(op == '+' || op == '-'){
+        return 4;
+    }
+    else if(op == '>' || op == '<'){
+        return 3;
+    }
+    else if(op == '&&'){
+        return 2;
+    }
+    else if(op == '||'){
+        return 1;
+    }
+}
+
+
 void convert(char *arr){
-    char S[Stacksize] = 0;
-    int i = 0;
-    char s;
-    while(S != ' ' || S != '\n'){
-           s = arr[i];
-           if(s >='A' && s <='Z'){
-            printf("%c", s);
-           }
-           else if()
+    for(int i = 0; arr[i] != '\0'; i++){
+        char c = arr[i];
+        if(isalpha(c)){
+            printf("%c", c);
+        }
+        else if(c == '('){
+            push(c);
+        }
+        else if(c == ')'){
+            while(top >= 0 && S[top] != '('){
+                printf("%c", pop());
+            }
+            pop();
+        }
+        else{
+            while(top > 0 && (precedence(c) >= precedence(S[top]))){
+                printf("%c", pop());
+            }
+            push(c);
+        }
+    }
+    while(top >= 0){
+        printf("%c", pop());
     }
 }
 
@@ -39,16 +77,14 @@ int main(){
     
     int N;
     scanf("%d", &N);
-    char array[N][Stacksize];
-    char Stack[Stacksize];
-    for(int i = 0; i < Stacksize; i++){
-        for(int j = 0; j < 100; j++){
-            scanf("%c", &array[i][j]);
-        }
-    }
+    getchar();
 
     for(int i = 0; i < N; i++){
-        convert(array[i]);
+        char array[stacksize];
+        fgets(array, stacksize, stdin);
+        array[strcspn(array, "\n")] = '\0';
+        convert(array);
+        printf("\n");
     }
 }
 
