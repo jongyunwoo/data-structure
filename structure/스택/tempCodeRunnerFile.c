@@ -1,85 +1,128 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 #pragma warning(disable:4996)
 
-char *S;
-int top;
+#define stacksize 100
+
+char S[stacksize];
+int top = -1;
+
+void push(char c){
+    if(top >= stacksize-1){
+        printf("Stack Full\n");
+    }
+    S[++(top)] = c;
+}
 
 char pop(){
-	if(top <= -1) {
+    if(top <= -1){
         printf("Stack Empty\n");
-        return 0;
+        return '\0';
     }
     return S[(top)--];
 }
 
-void push(char value){
-	if(top >= 1000 - 1){
-		printf("Stack FULL\n");
-		return;
-	}
-	S[++(top)] = value;
+//우선순위 정하기
+int precedence(char op){
+    if(op == '!'){
+        return 6;
+    }
+    else if(op == '*' || op == '/'){
+        return 5;
+    }
+    else if(op == '+' || op == '-'){
+        return 4;
+    }
+    else if(op == '>' || op == '<'){
+        return 3;
+    }
+    else if(op == '&'){
+        return 2;
+    }
+    else if(op == '|'){
+        return 1;
+    }
 }
 
-int isEmpty(){
-	if((top) == -1){
-		return 1;
-	}
-	else{
-		return 0;
-	}
+
+void convert(char *arr){
+    for(int i = 0; arr[i] != '\0'; i++){
+        char c = arr[i];
+        if(isalpha(c)){
+            printf("%c", c);
+        }
+        else if(c == '('){
+            push(c);
+        }
+        else if(c == ')'){
+            while(top >= 0 && S[top] != '('){
+                printf("%c", pop());
+            }
+            pop();
+        }
+        else if(c == '&'){
+            if(S[top] == '&'){
+                if(S[top-1] == '&'){
+                    printf("%c", pop());
+                    printf("%c", pop());
+                }
+                push(c);
+            }
+            else{
+                while(top >= 0 && (precedence(c) <= precedence(S[top])) && S[top] != '('){
+                    printf("%c", pop());
+                }
+                push(c);
+            }
+
+        }
+        else if(c == '|'){
+            if(S[top] == '|'){
+                if(S[top - 1] == '|'){
+                    printf("%c", pop());
+                    printf("%c", pop());
+                }
+                push(c);
+            }
+            else{
+                while(top >= 0 && (precedence(c) <= precedence(S[top])) && S[top] != '('){
+                    printf("%c", pop());
+                }
+                push(c);
+            }
+
+        }
+        else{
+            while(top >= 0 && (precedence(c) <= precedence(S[top])) && S[top] != '('){
+                printf("%c", pop());
+            }
+            
+            push(c);
+        }
+    }
+    while(top >= 0){
+        if(S[top] == '('){
+            pop();
+        }
+        else{
+            printf("%c", pop());
+        }
+    }
 }
 
-int checkBalance(char *sentence){
-	char popItem;
-	for(int i = 0; i < strlen(sentence); i++){
-		if((sentence[i] == '(') || (sentence[i] == '{') || (sentence[i] == '[')){
-			push(sentence[i]);
-		}
-		else if((sentence[i] == ')') || (sentence[i] == '}') || (sentence[i] == ']')){
-			if(isEmpty()){
-				return 0;
-			}
-			popItem = pop();
-			if(sentence[i] == ')'){
-				if(popItem != '('){
-					return 0;
-				}
-			}
-			else if(sentence[i] == '{'){
-				if(popItem != '}'){
-					return 0;
-				}
-			}
-			else if(sentence[i] == '['){
-				if(popItem != ']'){
-					return 0;
-				}
-			}
-		}
-	}
-	return isEmpty();
-}
 int main(){
-	int count = 0;
-	char *sentence = (char*)malloc(sizeof(char) * 1000);
-	S = (char*)malloc(sizeof(char) * 1000);
-	top = -1;
+    int N;
+    scanf("%d", &N);
+    getchar();
 
-	fgets(sentence, 1000, stdin);
-	for(int i = 0; i < strlen(sentence); i++){
-		if ((sentence[i] == '(') || (sentence[i] == '{') || (sentence[i] == '[') || (sentence[i] == ')') || (sentence[i] == '}') || (sentence[i] == ']')){
-			count++;
-		}
-	}
-	if(checkBalance(sentence) == 1){
-		printf("OK_%d", count);
-	}
-	else{
-		printf("Wrong_%d", count);
-	}
-	free(sentence);
-	free(S);
-
+    for(int i = 0; i < N; i++){
+        char array[stacksize];
+        fgets(array, stacksize, stdin);
+        array[strcspn(array, "\n")] = '\0';
+        convert(array);
+        printf("\n");
+    }
 }
+

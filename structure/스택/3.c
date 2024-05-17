@@ -5,6 +5,7 @@
 #pragma warning(disable:4996)
 
 #define stacksize 100
+
 char S[stacksize];
 int top = -1;
 
@@ -25,7 +26,7 @@ char pop(){
 
 //우선순위 정하기
 int precedence(char op){
-    if(op == '!'){
+    if(op == '!' || ){
         return 6;
     }
     else if(op == '*' || op == '/'){
@@ -37,10 +38,10 @@ int precedence(char op){
     else if(op == '>' || op == '<'){
         return 3;
     }
-    else if(op == '&&'){
+    else if(op == '&'){
         return 2;
     }
-    else if(op == '||'){
+    else if(op == '|'){
         return 1;
     }
 }
@@ -61,20 +62,56 @@ void convert(char *arr){
             }
             pop();
         }
+        else if(c == '&'){
+            if(S[top] == '&'){
+                if(S[top-1] == '&'){
+                    printf("%c", pop());
+                    printf("%c", pop());
+                }
+                push(c);
+            }
+            else{
+                while(top >= 0 && (precedence(c) <= precedence(S[top])) && S[top] != '('){
+                    printf("%c", pop());
+                }
+                push(c);
+            }
+
+        }
+        else if(c == '|'){
+            if(S[top] == '|'){
+                if(S[top - 1] == '|'){
+                    printf("%c", pop());
+                    printf("%c", pop());
+                }
+                push(c);
+            }
+            else{
+                while(top >= 0 && (precedence(c) <= precedence(S[top])) && S[top] != '('){
+                    printf("%c", pop());
+                }
+                push(c);
+            }
+
+        }
         else{
-            while(top > 0 && (precedence(c) >= precedence(S[top]))){
+            while(top >= 0 && (precedence(c) <= precedence(S[top])) && S[top] != '('){
                 printf("%c", pop());
             }
             push(c);
         }
     }
     while(top >= 0){
-        printf("%c", pop());
+        if(S[top] == '('){
+            pop();
+        }
+        else{
+            printf("%c", pop());
+        }
     }
 }
 
 int main(){
-    
     int N;
     scanf("%d", &N);
     getchar();
