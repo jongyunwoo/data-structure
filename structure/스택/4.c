@@ -9,8 +9,6 @@
 int top = -1;
 char S[stacksize];
 
-
-
 void push(char c){
     if(top >= stacksize-1){
         printf("Stack Full\n");
