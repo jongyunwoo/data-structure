@@ -5,16 +5,16 @@
 
 //구조체 정의
 typedef struct{
-    int *e;
+    int e;
     int front;
     int rear;
 }circleQ;
 
 //초기화
-void init(circleQ *q, int N){
+void init(circleQ *q){
     q->front = 0;
     q->rear = 0;
-    q->e = (int*)malloc(sizeof(int)*N);
+    q->e = 0;
 }
 
 //공백상태 여부
@@ -49,7 +49,7 @@ void INPUT(circleQ *q, int e, int N){
 }    
 
 //데이터 삭제
-int Delete(circleQ *q, int N){
+int Delete(circleQ *q, int e, int N){
     if(empty(q) == 1){
         printf("underflow ");
         return 0;
@@ -62,29 +62,20 @@ int Delete(circleQ *q, int N){
 
 //데이터 출력
 void Print(circleQ *q, int N){
-    int i = 0;
+    int i = q->front;
     if(empty(q) == 1){
         printf("underflow ");
     }
     if(full(q, N) == 1){
         printf("overflow ");
-        while(1){        
-            printf("%d ", q->e[i]);
-            i = (i+1);
-            if(i == N+1){
-                break;
-            }
+    }
+    while(1){
+        i = (i+1)%N;
+        printf("%d ", q->e[i]);
+        if(i == q->rear){
+            break;
         }
     }
-    else{
-        while(1){        
-            printf("%d ", q->e[i]);
-            i = (i+1);
-            if(i == N+1){
-                break;
-            }
-        }
-    }    
 }
 
 int main(){
@@ -93,24 +84,24 @@ int main(){
     char ch;
     int data;
     circleQ p;
+    init(&p);
 
     scanf("%d", &N);
+    getchar();
     scanf("%d", &M);
-    init(&p, M);
 
     for(int j = 0; j < M; j++){
-        scanf(" %c", &ch);
+        scanf("%c ", &ch);
         getchar();
         if(ch == 'I'){
             scanf("%d", &data);
             INPUT(&p, data, N);
         }
         else if(ch == 'D'){
-            Delete(&p, N);
+            Delete(&p, data, N);
         }
         else if(ch == 'P'){
             Print(&p, N);
-            printf("\n");
         }
     }
 
