@@ -15,32 +15,18 @@ void init(circleQ *q, int N){
     q->front = 0;
     q->rear = 0;
     q->e = (int*)malloc(sizeof(int)*N);
-}
-
-//공백상태 여부
-int empty(circleQ *q){
-    if(q->front == q->rear){
-        return 1;
-    }
-    else{
-        return 0;
-    }
-}
-
-//포화상태 여부
-int full(circleQ *q, int N){
-    if(q->front == (q->rear+1)%N){
-        return 1;
-    }
-    else{
-        return 0;
+    for (int i = 0; i < N; i++){
+    q->e[i] = 0;
     }
 }
 
 //데이터 삽입
 void INPUT(circleQ *q, int e, int N){
-    if(full(q, N) == 1){
-        printf("overflow ");
+    if(q->front == (q->rear+1)%N){
+        printf("overflow");
+        for(int i = 0; i < N; i++){
+            printf(" %d", q->e[i]);
+        }
     }
     else{
         q->rear = (q->rear+1) % N;
@@ -49,42 +35,30 @@ void INPUT(circleQ *q, int e, int N){
 }    
 
 //데이터 삭제
-int Delete(circleQ *q, int N){
-    if(empty(q) == 1){
-        printf("underflow ");
-        return 0;
+void Delete(circleQ *q, int N){
+    if(q->front == q->rear){
+        printf("underflow");
+        for(int i = 0; i < N; i++){
+            printf(" %d", q->e[i]);   
+        }
     }
     else{
         q->front = (q->front+1)%N;
-        return q->e[q->front] = 0;
+        q->e[q->front] = 0;
+
     }
 }
 
 //데이터 출력
 void Print(circleQ *q, int N){
     int i = 0;
-    if(empty(q) == 1){
-        printf("underflow ");
-    }
-    if(full(q, N) == 1){
-        printf("overflow ");
-        while(1){        
-            printf("%d ", q->e[i]);
-            i = (i+1);
-            if(i == N+1){
-                break;
-            }
+    while(1){        
+        printf("%d ", q->e[i]);
+        i = (i+1);
+        if(i == N){
+            break;
         }
     }
-    else{
-        while(1){        
-            printf("%d ", q->e[i]);
-            i = (i+1);
-            if(i == N+1){
-                break;
-            }
-        }
-    }    
 }
 
 int main(){
@@ -96,22 +70,21 @@ int main(){
 
     scanf("%d", &N);
     scanf("%d", &M);
-    init(&p, M);
+    init(&p, N);
 
     for(int j = 0; j < M; j++){
         scanf(" %c", &ch);
-        getchar();
         if(ch == 'I'){
             scanf("%d", &data);
             INPUT(&p, data, N);
         }
         else if(ch == 'D'){
             Delete(&p, N);
+
         }
         else if(ch == 'P'){
             Print(&p, N);
             printf("\n");
         }
     }
-
 }
