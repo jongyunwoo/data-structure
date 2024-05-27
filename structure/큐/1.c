@@ -36,11 +36,8 @@ void INPUT(circleQ *q, int e, int N){
 
 //데이터 삭제
 void Delete(circleQ *q, int N){
-    if(q->front == q->rear){
+    if(q->front == (q->rear)%N){
         printf("underflow");
-        for(int i = 0; i < N; i++){
-            printf(" %d", q->e[i]);   
-        }
     }
     else{
         q->front = (q->front+1)%N;
