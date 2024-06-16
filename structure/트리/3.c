@@ -31,17 +31,18 @@ void init(tree *t){
     t->size = 0;
 }
 
-//트리 구성
+node *nodes[8];
+//트리구성
 void create_tree(tree *t){
-    node *F7 = create_node(7, 130, NULL, NULL);
-    node *F8 = create_node(8, 80, NULL, NULL);
-    node *F6 = create_node(6, 120, F7, F8);
-    node *F3 = create_node(3, 50, NULL, F6);
-    node *F4 = create_node(4, 70, NULL, NULL);
-    node *F5 = create_node(5, 90, NULL, NULL);
-    node *F2 = create_node(2, 30, F4, F5);
-    node *F1 = create_node(1, 20, F2, F3);
-    t->root = F1;
+    nodes[6] = create_node(7, 130, NULL, NULL);
+    nodes[7] = create_node(8, 80, NULL, NULL);
+    nodes[5] = create_node(6, 120, nodes[6], nodes[7]);
+    nodes[4] = create_node(3, 50, NULL, nodes[5]);
+    nodes[2] = create_node(4, 70, NULL, NULL);
+    nodes[3] = create_node(5, 90, NULL, NULL);
+    nodes[1] = create_node(2, 30, nodes[2], nodes[3]);
+    nodes[0] = create_node(1, 20, nodes[1], nodes[4]);
+    t->root = nodes[0];
     t->size = 8;
 }
 
@@ -53,7 +54,7 @@ node* find_node(node* root, int id){
     return find_node(root->right, id);
 }
 
-int pre_order_sum(node *a){
+int pre_order_sum(node *a){ //전위순회 방식으로 원소값 더하기
     if(a == NULL) return 0;
     int sum = a->data;
     sum += pre_order_sum(a->left);
