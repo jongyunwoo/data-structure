@@ -1,21 +1,18 @@
 #include<stdio.h>
-
 #include<stdlib.h>
-
 #include<string.h>
 
-
-
+// 이중연결리스트 구조체 정의
 struct node{
 	int element;
 	struct node *next;
 	struct node *prev;
 };
 
-int dequeNumber;
+int dequeNumber; //데크Q에 들어갈 원소
 struct node *deque, *rear, *front;
 
-void delete_front(){
+void delete_front(){ //front에서 삭제
 	struct node *p;
 	if (dequeNumber == 0){
 		printf("underflow\n");
@@ -53,8 +50,6 @@ void delete_rear(){
 		}
 	}
 }
-
-
 
 void add_front(int value){
 	struct node *newnode = (struct node*)malloc(sizeof(struct node));
