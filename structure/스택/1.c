@@ -5,20 +5,20 @@
 
 int Stacksize, top;
 
-void push(char *S, char element){
-    if(top >= Stacksize-1){
-        printf("Stack FULL\n");
+void push(char *S, char element){ // 삽입
+    if(top >= Stacksize-1){ 
+        printf("Stack FULL\n"); 
         return;
     }
     S[++(top)] = element;
 }
 
-char pop(char *S){
+char pop(char *S){ // 삭제
     if(top <= -1){
         printf("Stack Empty\n");
         return;
     }
-    return S[(top)--];
+    return S[(top)--]; // 삭제한 원소 반환
 }
 
 void peek(char *S){
@@ -26,18 +26,18 @@ void peek(char *S){
         printf("Stack Empty\n");
         return;
     }
-    printf("%c\n", S[top]);
+    printf("%c\n", S[top]); // top에 존재하는 원소 반환
 }
 
-void duplicate(char *S){
+void duplicate(char *S){ //stop에 있는 원소를 pop한 후 두 번 삽입
     if(top >= Stacksize-1){
         printf("Stack FULL\n");
     }
-    push(S, pop(S));
+    push(S, pop(S)); 
     push(S, S[top]);
 }
 
-void upRotate(char *S, int n){
+void upRotate(char *S, int n){ // 맨 위의 원소 n개를 하나씩 위로 올림, top은 가장 아래로
     char *array = (char *)malloc(n*sizeof(char));
     if(n > top + 1){
         free(array);
@@ -53,7 +53,7 @@ void upRotate(char *S, int n){
     free(array);
 }
 
-void douwnRatate(char *S, int n){
+void douwnRatate(char *S, int n){ // 맨위의 원소 n개를 하나씩 아래로 내림, 가장 아래 있는 원소 top으로 옮김
     char *array = (char *)malloc(n*sizeof(char));
     if(n > top + 1){
         free(array);
@@ -70,7 +70,7 @@ void douwnRatate(char *S, int n){
     free(array);
 }
 
-void print(char *S){
+void print(char *S){ // top에서부터 순서대로 출력
     for(int i = top; i > -1; i--){
         printf("%c", S[i]);
     }

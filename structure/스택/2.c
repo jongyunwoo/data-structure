@@ -6,7 +6,7 @@
 char *S;
 int top;
 
-char pop(){
+char pop(){ // 원소 삭제 후 반환
 	if(top <= -1) {
         printf("Stack Empty\n");
         return 0;
@@ -14,7 +14,7 @@ char pop(){
     return S[(top)--];
 }
 
-void push(char value){
+void push(char value){ // 원소 삽입
 	if(top >= 1000 - 1){
 		printf("Stack FULL\n");
 		return;
@@ -32,29 +32,29 @@ int isEmpty(){
 }
 
 int checkBalance(char *sentence){
-	char popItem;
+	char popItem; 
 	for(int i = 0; i < strlen(sentence); i++){
 		if((sentence[i] == '(') || (sentence[i] == '{') || (sentence[i] == '[')){
-			push(sentence[i]);
+			push(sentence[i]); // 시작 괄호이면 스택에 쌓음
 		}
 		else if((sentence[i] == ')') || (sentence[i] == '}') || (sentence[i] == ']')){
 			if(isEmpty()){
 				return 0;
 			}
-			popItem = pop();
+			popItem = pop(); // 닫는 괄호이면 여는 괄호 변수에 전달
 			if(sentence[i] == ')'){
 				if(popItem != '('){
-					return 0;
+					return 0; // 짝이 맞지 않으면 0
 				}
 			}
 			else if(sentence[i] == '{'){
 				if(popItem != '}'){
-					return 0;
+					return 0; //짝이 맞지 않으면 0
 				}
 			}
 			else if(sentence[i] == '['){
 				if(popItem != ']'){
-					return 0;
+					return 0; // 짝이 맞지 않으면 0
 				}
 			}
 		}
@@ -71,7 +71,7 @@ int main(){
 	getchar();
 	for(int i = 0; i < strlen(sentence); i++){
 		if ((sentence[i] == '(') || (sentence[i] == '{') || (sentence[i] == '[') || (sentence[i] == ')') || (sentence[i] == '}') || (sentence[i] == ']')){
-			count++;
+			count++; // 괄호 총 개수 구하기
 		}
 	}
 	if(checkBalance(sentence) == 1){
